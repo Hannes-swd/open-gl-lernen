@@ -8,11 +8,20 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
     "src/*.c"
 )
 
-add_executable(ErstesProjekt ${SOURCES})
+file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS
+    "HeaderFiles/*.h"
+    "HeaderFiles/*.hpp"
+)
+
+add_executable(ErstesProjekt ${SOURCES} ${HEADERS})
+
+source_group("Source Files" FILES ${SOURCES})
+source_group("Header Files" FILES ${HEADERS})
 
 target_include_directories(ErstesProjekt PRIVATE
     include
     include/include
+    HeaderFiles
 )
 
 target_link_libraries(ErstesProjekt PRIVATE

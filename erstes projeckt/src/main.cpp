@@ -2,19 +2,9 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-//shader
-const char* vertexShaderSource = "#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"void main()\n"
-"{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-"}\0";
-const char* fragmentShaderSource = "#version 330 core\n"
-"out vec4 FragColor;\n"
-"void main()\n"
-"{\n"
-"   FragColor = vec4(0.8f, 0.3f, 0.02f, 1.0f);\n"
-"}\n\0";
+
+
+
 
 int main() {
     if (!glfwInit()) {
@@ -61,26 +51,7 @@ int main() {
 
     glViewport(0, 0, 800, 600);
 
-    //vertexshader erstellen
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
-    { GLint ok; char log[512]; glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &ok); if (!ok) { glGetShaderInfoLog(vertexShader, 512, NULL, log); std::cerr << "Vertex Shader Fehler:\n" << log; } }
-    //fragment shader erstellen
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-    { GLint ok; char log[512]; glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &ok); if (!ok) { glGetShaderInfoLog(fragmentShader, 512, NULL, log); std::cerr << "Fragment Shader Fehler:\n" << log; } }
-
-    GLuint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-    { GLint ok; char log[512]; glGetProgramiv(shaderProgram, GL_LINK_STATUS, &ok); if (!ok) { glGetProgramInfoLog(shaderProgram, 512, NULL, log); std::cerr << "Shader Program Fehler:\n" << log; } }
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
+    
 
     GLuint VAO, VBO, EBO;
     glGenVertexArrays(1, &VAO);
@@ -136,3 +107,7 @@ int main() {
     glfwTerminate();
     return 0;
 }
+
+
+// https://youtu.be/45MIykWJ-C4?si=xUKInpImLFiKOpA2&t=2123
+// cmake --build "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build" --config Release; & "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build\Release\ErstesProjekt.exe"
