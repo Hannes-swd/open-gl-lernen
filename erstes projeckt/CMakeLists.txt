@@ -1,25 +1,25 @@
 cmake_minimum_required(VERSION 3.10)
-project(ErstesProjekt C CXX)
+project(ErstesProjekt)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(${PROJECT_NAME} main.cpp src/glad.c)
+add_executable(ErstesProjekt
+    main.cpp
+    src/glad.c
+)
 
-target_include_directories(${PROJECT_NAME} PRIVATE include)
+target_include_directories(ErstesProjekt PRIVATE
+    include
+    include/include
+)
 
-find_package(OpenGL REQUIRED)
-target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL)
+target_link_libraries(ErstesProjekt PRIVATE
+    "${CMAKE_SOURCE_DIR}/lib/glfw3dll.lib"
+    opengl32
+)
 
-find_package(glfw3 REQUIRED)
-target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
-
-if(WIN32)
-    target_link_libraries(${PROJECT_NAME} PRIVATE gdi32 user32)
-endif()
-
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY        "${CMAKE_SOURCE_DIR}"
-    RUNTIME_OUTPUT_DIRECTORY_DEBUG  "${CMAKE_SOURCE_DIR}"
-    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}"
+add_custom_command(TARGET ErstesProjekt POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_SOURCE_DIR}/glfw3.dll"
+        "$<TARGET_FILE_DIR:ErstesProjekt>/glfw3.dll"
 )
