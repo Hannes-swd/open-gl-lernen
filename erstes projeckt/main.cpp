@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+//shader
 const char* vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
 "void main()\n"
@@ -26,6 +27,7 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+    //alle punkte setzen
     GLfloat vertices[] = {
         -0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,
          0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,
@@ -44,15 +46,17 @@ int main() {
     //mahlt content
     glfwMakeContextCurrent(window);
 
+    //ladet die farben
     gladLoadGL();
 
     glViewport(0, 0, 800, 600);
 
+    //vertexshader erstellen
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
     glCompileShader(vertexShader);
     { GLint ok; char log[512]; glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &ok); if (!ok) { glGetShaderInfoLog(vertexShader, 512, NULL, log); std::cerr << "Vertex Shader Fehler:\n" << log; } }
-
+    //fragment shader erstellen
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
@@ -72,7 +76,7 @@ int main() {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
 
-
+    //setz lles zusammen
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
@@ -105,13 +109,16 @@ int main() {
         glfwPollEvents();
     }
 
+    //loscht alles was es nicht mer braucht
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteProgram(shaderProgram);
 
+    //schliest das fenster
     glfwTerminate();
     return 0;
 }
 
 
-// https://youtu.be/45MIykWJ-C4?si=jz_80FlIyMA_mECb&t=1713
+// https://youtu.be/45MIykWJ-C4?si=AMpocs4vzjL5LyLw&t=1761
+// cmake --build "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build" --config Release; & "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build\Release\ErstesProjekt.exe"
