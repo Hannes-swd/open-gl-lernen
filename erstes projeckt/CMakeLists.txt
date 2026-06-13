@@ -1,12 +1,14 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.12)
 project(ErstesProjekt)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(ErstesProjekt
-    main.cpp
-    src/glad.c
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
+    "src/*.cpp"
+    "src/*.c"
 )
+
+add_executable(ErstesProjekt ${SOURCES})
 
 target_include_directories(ErstesProjekt PRIVATE
     include
@@ -22,4 +24,7 @@ add_custom_command(TARGET ErstesProjekt POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${CMAKE_SOURCE_DIR}/glfw3.dll"
         "$<TARGET_FILE_DIR:ErstesProjekt>/glfw3.dll"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/res"
+        "$<TARGET_FILE_DIR:ErstesProjekt>/res"
 )

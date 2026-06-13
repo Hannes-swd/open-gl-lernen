@@ -37,7 +37,7 @@ int main() {
          0.0f,        -0.5f * float(sqrt(3)) / 3,      0.0f  // Inner down
     };
 
-    GLuint indices[] = 
+    GLuint indices[] =
     {
         0, 3, 5, //unten links
         3, 2, 4, //unten rechts
@@ -136,7 +136,3 @@ int main() {
     glfwTerminate();
     return 0;
 }
-
-
-// https://youtu.be/45MIykWJ-C4?si=AMpocs4vzjL5LyLw&t=1761
-// cmake --build "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build" --config Release; & "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build\Release\ErstesProjekt.exe"
