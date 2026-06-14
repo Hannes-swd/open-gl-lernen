@@ -1,4 +1,4 @@
-#ifdef SHADER_CLASS_H
+#ifndef SHADER_CLASS_H
 #define SHADER_CLASS_H
 
 #include <glad/glad.h>
@@ -11,14 +11,14 @@
 
 std::string get_file_contents(const char* filename);
 
-class shader 
+class shader
 {
     public:
         GLuint ID;
-        Shader(const char* vertexFile, const char* fragmentFile);
+        shader(const char* vertexFile, const char* fragmentFile);
 
         void Activate();
         void Delete();
-}
+};
 
 #endif

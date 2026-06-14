@@ -2,6 +2,11 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+#include "shaderClass.h"
+
+#include "VAO.h"
+
+#include "EBO.h"
 
 
 
@@ -51,30 +56,21 @@ int main() {
 
     glViewport(0, 0, 800, 600);
 
-    
-
-    GLuint VAO, VBO, EBO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-
-    //setz lles zusammen
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    shader shaderProgram("../../res/Shaders/default.vert", "../../res/Shaders/default.frag");
 
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
+    VAO vao;
+    vao.Bind();
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    VBO vbo(vertices, sizeof(vertices));
+    EBO ebo((GLfloat*)indices, sizeof(indices));
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    vao.LinkVBO(vbo, 0);
+
+    vao.Unbind();
+    vbo.Unbind();
+    ebo.Unbind();
 
 
     glClearColor(0.07f, 0.13f, 0.67f, 1.0f );
@@ -87,8 +83,8 @@ int main() {
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.07f, 0.13f, 0.67f, 1.0f );
         glClear(GL_COLOR_BUFFER_BIT);
-        glUseProgram(shaderProgram);
-        glBindVertexArray(VAO);
+        shaderProgram.Activate();
+        vao.Bind();
 
         glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
 
@@ -98,10 +94,10 @@ int main() {
     }
 
     //loscht alles was es nicht mer braucht
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
-    glDeleteProgram(shaderProgram);
+    vao.Delete();
+    vbo.Delete();
+    ebo.Delete();
+    shaderProgram.Delete();
 
     //schliest das fenster
     glfwTerminate();
@@ -109,5 +105,5 @@ int main() {
 }
 
 
-// https://youtu.be/45MIykWJ-C4?si=xUKInpImLFiKOpA2&t=2123
+// https://youtu.be/45MIykWJ-C4?si=zG7RZyJd8n3l_F8h&t=2278
 // cmake --build "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build" --config Release; & "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build\Release\ErstesProjekt.exe"
