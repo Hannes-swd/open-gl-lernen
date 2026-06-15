@@ -34,12 +34,13 @@ int main() {
 
     //alle punkte setzen
     GLfloat vertices[] = {
-        -0.5f,        -0.5f * float(sqrt(3)) / 3,      0.0f, // Lower left corner
-         0.5f,        -0.5f * float(sqrt(3)) / 3,      0.0f, // Lower right corner
-         0.0f,         0.5f * float(sqrt(3)) * 2 / 3,  0.0f, // Upper corner
-        -0.5f / 2,     0.5f * float(sqrt(3)) / 6,      0.0f, // Inner left
-         0.5f / 2,     0.5f * float(sqrt(3)) / 6,      0.0f, // Inner right
-         0.0f,        -0.5f * float(sqrt(3)) / 3,      0.0f  // Inner down
+        //            Cordinates                                farben
+        -0.5f,        -0.5f * float(sqrt(3)) / 3,      0.0f,    0.8f, 0.3f, 1.00f,  // Lower left corner
+         0.5f,        -0.5f * float(sqrt(3)) / 3,      0.0f,    0.0f, 0.0f, 0.22f,  // Lower right corner
+         0.0f,         0.5f * float(sqrt(3)) * 2 / 3,  0.0f,    0.3f, 0.3f, 0.32f,  // Upper corner
+        -0.5f / 2,     0.5f * float(sqrt(3)) / 6,      0.0f,    0.5f, 0.2f, 0.52f,  // Inner left
+         0.5f / 2,     0.5f * float(sqrt(3)) / 6,      0.0f,    0.6f, 0.3f, 0.02f,  // Inner right
+         0.0f,        -0.5f * float(sqrt(3)) / 3,      0.0f,    1.0f, 0.5f, 0.22f   // Inner down
     };
 
     GLuint indices[] =
@@ -80,7 +81,8 @@ int main() {
     VBO vbo(vertices, sizeof(vertices));
     EBO ebo((GLfloat*)indices, sizeof(indices));
 
-    vao.LinkVBO(vbo, 0);
+    vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, 6 * sizeof(GLfloat), (void*)0);
+    vao.LinkAttrib(vbo, 1, 3, GL_FLOAT, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 
     vao.Unbind();
     vbo.Unbind();
@@ -119,5 +121,5 @@ int main() {
 }
 
 
-// https://youtu.be/45MIykWJ-C4?si=zG7RZyJd8n3l_F8h&t=2278
+// https://youtu.be/45MIykWJ-C4?si=Gje-SQge5RfDubmf&t=2510
 // cmake --build "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build" --config Release; & "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build\Release\ErstesProjekt.exe"
