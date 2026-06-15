@@ -21,6 +21,7 @@ source_group("Header Files" FILES ${HEADERS})
 target_include_directories(ErstesProjekt PRIVATE
     include
     include/include
+    lib/include
     HeaderFiles
 )
 
