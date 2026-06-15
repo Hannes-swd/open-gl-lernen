@@ -10,11 +10,11 @@ EBO::EBO(GLfloat* vertices, GLsizeiptr size)
 
 void EBO::Bind()
 {
-    glBindBuffer(GL_ARRAY_BUFFER, ID);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ID);
 }
 void EBO::Unbind()
 {
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 void EBO::Delete()
 {

@@ -1,6 +1,9 @@
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <string>
 
 #include "shaderClass.h"
 
@@ -10,6 +13,13 @@
 
 
 
+
+std::string exeDir() {
+    char buf[MAX_PATH];
+    GetModuleFileNameA(NULL, buf, MAX_PATH);
+    std::string path(buf);
+    return path.substr(0, path.find_last_of("\\/"));
+}
 
 int main() {
     if (!glfwInit()) {
@@ -56,7 +66,11 @@ int main() {
 
     glViewport(0, 0, 800, 600);
 
-    shader shaderProgram("../../res/Shaders/default.vert", "../../res/Shaders/default.frag");
+    std::string base = exeDir();
+    shader shaderProgram(
+        (base + "/res/Shaders/default.vert").c_str(),
+        (base + "/res/Shaders/default.frag").c_str()
+    );
 
 
 
