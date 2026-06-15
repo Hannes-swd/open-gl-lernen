@@ -88,18 +88,14 @@ int main() {
     vbo.Unbind();
     ebo.Unbind();
 
-
-    glClearColor(0.07f, 0.13f, 0.67f, 1.0f );
-    //macht buffer
-    glClear(GL_COLOR_BUFFER_BIT);
-    //mach swap
-    glfwSwapBuffers(window);
-
+    GLuint uniID = glGetUniformLocation(shaderProgram.ID, "scale");
+    
     //mainloop
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.07f, 0.13f, 0.67f, 1.0f );
         glClear(GL_COLOR_BUFFER_BIT);
         shaderProgram.Activate();
+        glUniform1f(uniID, 0.5f);
         vao.Bind();
 
         glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
@@ -121,5 +117,5 @@ int main() {
 }
 
 
-// https://youtu.be/45MIykWJ-C4?si=Gje-SQge5RfDubmf&t=2510
+// https://youtu.be/45MIykWJ-C4?si=XxRzZXBJwL-4rtaF&t=2794
 // cmake --build "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build" --config Release; & "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build\Release\ErstesProjekt.exe"
