@@ -8,9 +8,8 @@
 #include <stb/stb_image.h>
 
 #include "shaderClass.h"
-
+#include "Texture.h"
 #include "VAO.h"
-
 #include "EBO.h"
 
 
@@ -92,33 +91,9 @@ int main() {
 
     GLuint uniID = glGetUniformLocation(shaderProgram.ID, "scale");
 
-    //texture
-    int widthImg, heightImg, numColCh;
-    stbi_set_flip_vertically_on_load(true);
-    unsigned char* bytes = stbi_load((base + "/res/textures/pop_cat.png").c_str(), &widthImg, &heightImg, &numColCh, 0);
-
-    GLuint texture;
-    glGenTextures(1, &texture);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthImg, heightImg, 0, GL_RGBA, GL_UNSIGNED_BYTE, bytes);
-
-    glGenerateMipmap(GL_TEXTURE_2D);
-
-    stbi_image_free(bytes);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-
-    GLuint tex0Uni = glGetUniformLocation(shaderProgram.ID, "tex0");
-    shaderProgram.Activate();
-    glUniform1i(tex0Uni, 0);
+    std::string texPath = base + "/res/textures/pop_cat.png";
+    Texture tex0(texPath.c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+    tex0.texUnit(shaderProgram, "tex0", 0);
 
     //mainloop
     while (!glfwWindowShouldClose(window)) {
@@ -126,7 +101,7 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
         shaderProgram.Activate();
         glUniform1f(uniID, 0.5f);
-        glBindTexture(GL_TEXTURE_2D, texture);
+        tex0.Bind();
         vao.Bind();
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -140,7 +115,7 @@ int main() {
     vao.Delete();
     vbo.Delete();
     ebo.Delete();
-    glDeleteTextures(1, &texture);
+    tex0.Delete();
     shaderProgram.Delete();
 
     //schliest das fenster
@@ -149,5 +124,5 @@ int main() {
 }
 
 
-// https://youtu.be/45MIykWJ-C4?si=A3isLb6ZQDmtQtHv&t=3336
+// https://youtu.be/45MIykWJ-C4?si=iawSPr9ziujaBDXc&t=3390
 // cmake --build "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build" --config Release; & "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build\Release\ErstesProjekt.exe"
