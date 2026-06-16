@@ -124,5 +124,5 @@ int main() {
 }
 
 
-// https://youtu.be/45MIykWJ-C4?si=iawSPr9ziujaBDXc&t=3390
+// https://youtu.be/45MIykWJ-C4?si=WJuwTy-hgw_qDZfH&t=3443
 // cmake --build "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build" --config Release; & "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build\Release\ErstesProjekt.exe"
