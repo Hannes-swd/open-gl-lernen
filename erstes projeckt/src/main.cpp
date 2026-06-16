@@ -14,7 +14,7 @@
 #include "Texture.h"
 #include "VAO.h"
 #include "EBO.h"
-
+#include "Camera.h"
 
 const unsigned int width = 800;
 const unsigned int height = 800;
@@ -100,48 +100,24 @@ int main() {
     vbo.Unbind();
     ebo.Unbind();
 
-    GLuint uniID = glGetUniformLocation(shaderProgram.ID, "scale");
 
     std::string texPath = base + "/res/textures/brick.png";
     Texture tex0(texPath.c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
     tex0.texUnit(shaderProgram, "tex0", 0);
 
-    float ratation = 0.0f;
-    double prevTime = glfwGetTime();
 
     glEnable(GL_DEPTH_TEST);
 
+    Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
+
     //mainloop
     while (!glfwWindowShouldClose(window)) {
-        glClearColor(0.07f, 0.13f, 0.67f, 1.0f );
+        glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         shaderProgram.Activate();
 
-        double crntTime = glfwGetTime();
-        if (crntTime - prevTime >= 1.0/60.0)
-        {
-            ratation += 0.5f;
-            prevTime = crntTime;
-        }
+        camera.Matrix(45.0f, 0.1f, 100.0f, shaderProgram, "camMatrix");
 
-        glm::mat4 model = glm::mat4(1.0f);
-        glm::mat4 view = glm::mat4(1.0f);
-        glm::mat4 proj = glm::mat4(1.0f);
-
-
-        model = glm::rotate(model, glm::radians(ratation), glm::vec3(0.0f,1.0f,0.0f));
-        view = glm::translate(view, glm::vec3(0.0f, -0.5f, -2.0f));
-        proj = glm::perspective(glm::radians(45.0f), (float)(width/height), 0.1f, 100.0f);
-
-        int modelLoc = glGetUniformLocation(shaderProgram.ID, "model");
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        int viewLoc = glGetUniformLocation(shaderProgram.ID, "view");
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-        int projLoc = glGetUniformLocation(shaderProgram.ID, "proj");
-        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
-
-
-        glUniform1f(uniID, 0.5f);
         tex0.Bind();
         vao.Bind();
 
@@ -165,5 +141,5 @@ int main() {
 }
 
 
-// https://youtu.be/45MIykWJ-C4?si=4WLFegoy9xVTtZMB&t=3839
+// https://youtu.be/45MIykWJ-C4?si=IupWN4xavy6eX6w5&t=4001
 // cmake --build "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build" --config Release; & "C:\Users\hanne\Cpp\cpp open gl lernen\erstes projeckt\build\Release\ErstesProjekt.exe"
