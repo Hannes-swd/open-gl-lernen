@@ -110,11 +110,19 @@ int main() {
 
     Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
+    float lastTime = (float)glfwGetTime();
+
     //mainloop
     while (!glfwWindowShouldClose(window)) {
+        float currentTime = (float)glfwGetTime();
+        float deltaTime = currentTime - lastTime;
+        lastTime = currentTime;
+
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         shaderProgram.Activate();
+
+        camera.Inputs(window, deltaTime);
 
         camera.Matrix(45.0f, 0.1f, 100.0f, shaderProgram, "camMatrix");
 
