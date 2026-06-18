@@ -60,6 +60,14 @@ void Camera::Inputs(GLFWwindow* window, float deltaTime)
     if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
     {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
+        if (firstClick)
+        {
+            glfwSetCursorPos(window, (width / 2), (height / 2));
+            firstClick = false;
+        }
+
+
         double mouseX;
         double mouseY;
         glfwGetCursorPos(window, &mouseX, &mouseY);
@@ -80,5 +88,7 @@ void Camera::Inputs(GLFWwindow* window, float deltaTime)
     if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
     {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+        firstClick = true;
     }
 }
